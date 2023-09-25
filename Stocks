@@ -1,0 +1,27 @@
+Sub stock()
+    Const FIRST_DATA_ROW As Integer = 2
+    
+
+Dim Ticker As String
+Dim InputRow As Integer
+Dim OutPutCol As Integer
+Dim LastRow As Integer
+Dim OutputRow As Integer
+
+
+LastRow = 7
+
+OutPutCol = 9
+OutputRow = 2
+
+For InputRow = FIRST_DATA_ROW To LastRow
+    Ticker = Cells(FIRST_DATA_ROW, 1).Value
+    
+        If InputRow <> OutPutCol Then
+            Cells(OutputRow, OutPutCol) = Ticker
+                OutputRow = OutputRow + 1
+            
+        End If
+    Next
+
+End Sub
