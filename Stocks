@@ -3,9 +3,16 @@ Sub Stock()
     Dim last_row As Long
     Dim tickerCol As Integer
     
- last_row = Cells(Rows.Count, 1).End(xlUp).Row
+    Dim open_price As Double
+    Dim close_price As Double
+    Dim percent_change As Double
+    Dim percentCol As Integer
+    
+ '--last_row = Cells(Rows.Count, 1).End(xlUp).Row
+ last_row = 7
  tickerCol = 9
- 
+ percentCol = 11
+
   For i = 2 To last_row
     ticker = Cells(i, 1).Value
     Cells(i, 9).Value = ticker
@@ -14,4 +21,16 @@ Sub Stock()
             Cells(i, 9).Value = tickerCol
         End If
     Next i
+    
+    
+  For c = 2 To last_row
+    open_price = Cells(i, 3).Value
+    close_price = Cells(i, 6).Value
+    
+  Next c
+  
+  'MsgBox (close_price - open_price)
+  
+  
+    
 End Sub
