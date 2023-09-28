@@ -6,7 +6,7 @@ Sub OutputTickers()
     Dim openPrice As Double 'Declare a variable for the opening price.
     Dim closePrice As Double 'Declare a variable for the closing price.
     Dim yearly_change As Double
-    
+    Dim percent_change As Double
     
     For Each ws In Worksheets 'Loop through each worksheet in the workbook.
         lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row 'Find the last row of data in column A.
@@ -17,9 +17,11 @@ Sub OutputTickers()
                 ticker = ws.Cells(i, 1).Value 'If so, store the ticker symbol in a variable.
                 closePrice = ws.Cells(i, 6).Value 'Store closing price assuming it's in column F.
                 yearly_change = closePrice - openPrice
+                percent_change = (yearly_change / openPrice) * 100
                 
                 ws.Cells(TickerRow, "I").Value = ticker 'Output the ticker symbol to column "I" of the current worksheet.
-                ws.Cells(TickerRow, "J").Value = yearly_change 'Output the opening price to column "J" of the current worksheet.
+                ws.Cells(TickerRow, "J").Value = yearly_change 'Output the yearly change to column "J" of the current worksheet.
+                ws.Cells(TickerRow, "K").Value = percent_change / 100 'Output the percent change to column "K" of the current worksheet.
                 
                 TickerRow = TickerRow + 1 'Increment the row number for the next ticker symbol.
                 
@@ -30,6 +32,11 @@ Sub OutputTickers()
         Next i
         
         TickerRow = 2 'Reset the row number for the next worksheet.
+
+        With ws.Range("K2:K" & TickerRow)
+            .NumberFormat = "0.00%" 'Format as percentage with two decimal places
+        End With
+        
     Next ws
 End Sub
 
