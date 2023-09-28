@@ -3,18 +3,37 @@ Sub OutputTickers()
     Dim lastRow As Long 'Declare a variable for the last row of data.
     Dim TickerRow As Long: TickerRow = 2 'Declare a variable for the row number of the ticker symbol, starting at row 2.
     Dim ticker As String 'Declare a variable for the ticker symbol.
+    Dim openPrice As Double 'Declare a variable for the opening price.
+    Dim closePrice As Double 'Declare a variable for the closing price.
+    Dim yearly_change As Double
+    
+    
     For Each ws In Worksheets 'Loop through each worksheet in the workbook.
         lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row 'Find the last row of data in column A.
+        openPrice = ws.Cells(2, 3).Value 'Initialize opening price with the first row's opening price assuming it's in column C.
+        
         For i = 2 To lastRow 'Loop through each row of data.
             If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then 'Check if the next row has a different ticker symbol.
                 ticker = ws.Cells(i, 1).Value 'If so, store the ticker symbol in a variable.
+                closePrice = ws.Cells(i, 6).Value 'Store closing price assuming it's in column F.
+                yearly_change = closePrice - openPrice
+                
                 ws.Cells(TickerRow, "I").Value = ticker 'Output the ticker symbol to column "I" of the current worksheet.
+                ws.Cells(TickerRow, "J").Value = yearly_change 'Output the opening price to column "J" of the current worksheet.
+                
                 TickerRow = TickerRow + 1 'Increment the row number for the next ticker symbol.
+                
+                If i + 1 <= lastRow Then
+                    openPrice = ws.Cells(i + 1, 3).Value 'Store next row's opening price for next ticker
+                End If
             End If
         Next i
+        
         TickerRow = 2 'Reset the row number for the next worksheet.
     Next ws
 End Sub
+
+
 
 Sub yearly_change()
 
