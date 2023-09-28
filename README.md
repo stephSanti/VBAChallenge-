@@ -8,6 +8,7 @@ With this Challenge we had to create a script that loops through all the stocks 
 
 4) The total stock volume of the stock.
 
- ![image](https://github.com/stephSanti/VBAChallenge-/assets/144855936/4a2a7330-b76d-403a-81a7-a6416d77503c)
+ ![image](https://github.com/stephSanti/VBAChallenge-/assets/144855936/4d666c16-47b4-440b-a918-798f5fd2c9ec)
+
 
 # VBAChallenge-
