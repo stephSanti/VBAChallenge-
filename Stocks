@@ -8,7 +8,7 @@ Sub OutputTickers()
         For i = 2 To lastRow 'Loop through each row of data.
             If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then 'Check if the next row has a different ticker symbol.
                 ticker = ws.Cells(i, 1).Value 'If so, store the ticker symbol in a variable.
-                ws.Cells(TickerRow, "J").Value = ticker 'Output the ticker symbol to column J of the current worksheet.
+                ws.Cells(TickerRow, "I").Value = ticker 'Output the ticker symbol to column "I" of the current worksheet.
                 TickerRow = TickerRow + 1 'Increment the row number for the next ticker symbol.
             End If
         Next i
@@ -31,9 +31,8 @@ Dim ws As Worksheet 'Declare a variable for the worksheet.
     openingPrice = 0
     yearlyChange = 0
     closingPrice = 0
-    op = 0
-    'Dim yearlyChangeRow As Long: yearlyChangeRow = 1
-    ' Find the last row of data in column A
+    'op = 0
+
     lastRow = Cells(Rows.Count, 1).End(xlUp).Row
     For i = 2 To lastRow
         If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
@@ -49,19 +48,9 @@ Dim ws As Worksheet 'Declare a variable for the worksheet.
             End If
             If currentValue <> openingPrice Then
             End If
-           'For Each currentValue In YourDataRange
-        ' Check if it's the first value
-        'If firstValue = 0 Then
-         '   firstValue = currentValue
-        'End If
-        ' Check if it's more or less than the current value
-        'If currentValue <> firstValue Then
-            ' Don't change anything and move on to the next loop
-         '   Continue For
-        'End If
-                'If Cells(i + 1, 3).Value <> Cells(i, 3).Value Then
+ 
             yearlyChangeRow = yearlyChangeRow + 1
-            Cells(yearlyChangeRow, "K").Value = yearlyChange
+            Cells(yearlyChangeRow, "J").Value = yearlyChange
             yearlyChange = openingPrice - closingPrice
         End If
     Next i
@@ -90,7 +79,7 @@ Sub totalStock()
         ' If we've moved to a new ticker or reached the last row...
         If i = lastRow Or Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
             ' Output totalStock for the current ticker
-            Cells(totalStockRow, "K").Value = totalStock
+            Cells(totalStockRow, "L").Value = totalStock
             totalStockRow = totalStockRow + 1
         End If
     Next i
