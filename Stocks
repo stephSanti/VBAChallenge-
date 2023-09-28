@@ -111,3 +111,29 @@ Sub totalStock()
     Next i
 
 End Sub
+
+Sub Colorformat()
+    Dim rg As Range
+    Dim cond1 As FormatCondition, cond2 As FormatCondition
+
+    Set rg = Range("J:J")
+
+    ' Clear any existing conditional formatting
+    rg.FormatConditions.Delete
+
+    ' Add new conditional formatting for positive values
+    Set cond1 = rg.FormatConditions.Add(Type:=xlCellValue, Operator:=xlGreater, Formula1:="=0")
+    With cond1
+        .Interior.Color = vbGreen
+        .SetFirstPriority
+    End With
+
+    ' Add new conditional formatting for negative values
+    Set cond2 = rg.FormatConditions.Add(Type:=xlCellValue, Operator:=xlLess, Formula1:="=0")
+    With cond2
+        .Interior.Color = vbRed
+        .SetFirstPriority
+    End With
+End Sub
+
+
