@@ -7,4 +7,7 @@ With this Challenge we had to create a script that loops through all the stocks 
 3) The percentage change from the opening price at the beginning of a given year to the closing price at the end of that year.
 
 4) The total stock volume of the stock.
+
+ ![image](https://github.com/stephSanti/VBAChallenge-/assets/144855936/4a2a7330-b76d-403a-81a7-a6416d77503c)
+
 # VBAChallenge-
