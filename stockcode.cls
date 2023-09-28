@@ -1,0 +1,148 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "Sheet1"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Sub OutputTickers()
+    Dim ws As Worksheet 'Declare a variable for the worksheet.
+    Dim lastRow As Long 'Declare a variable for the last row of data.
+    Dim TickerRow As Long: TickerRow = 2 'Declare a variable for the row number of the ticker symbol, starting at row 2.
+    Dim ticker As String 'Declare a variable for the ticker symbol.
+    Dim openPrice As Double 'Declare a variable for the opening price.
+    Dim closePrice As Double 'Declare a variable for the closing price.
+    Dim yearly_change As Double
+    Dim percent_change As Double
+    
+    For Each ws In Worksheets 'Loop through each worksheet in the workbook.
+        lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row 'Find the last row of data in column A.
+        openPrice = ws.Cells(2, 3).Value 'Initialize opening price with the first row's opening price assuming it's in column C.
+        
+        For i = 2 To lastRow 'Loop through each row of data.
+            If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then 'Check if the next row has a different ticker symbol.
+                ticker = ws.Cells(i, 1).Value 'If so, store the ticker symbol in a variable.
+                closePrice = ws.Cells(i, 6).Value 'Store closing price assuming it's in column F.
+                yearly_change = closePrice - openPrice
+                percent_change = (yearly_change / openPrice) * 100
+                
+                ws.Cells(TickerRow, "I").Value = ticker 'Output the ticker symbol to column "I" of the current worksheet.
+                ws.Cells(TickerRow, "J").Value = yearly_change 'Output the yearly change to column "J" of the current worksheet.
+                ws.Cells(TickerRow, "K").Value = percent_change / 100 'Output the percent change to column "K" of the current worksheet.
+                
+                TickerRow = TickerRow + 1 'Increment the row number for the next ticker symbol.
+                
+                If i + 1 <= lastRow Then
+                    openPrice = ws.Cells(i + 1, 3).Value 'Store next row's opening price for next ticker
+                End If
+            End If
+        Next i
+        
+        TickerRow = 2 'Reset the row number for the next worksheet.
+
+        With ws.Range("K2:K" & TickerRow)
+            .NumberFormat = "0.00%" 'Format as percentage with two decimal places
+        End With
+        
+    Next ws
+End Sub
+
+
+
+Sub yearly_change()
+
+
+Dim ws As Worksheet 'Declare a variable for the worksheet.
+    Dim TickerRow As Long: TickerRow = 2 'Declare a variable for the row number of the ticker symbol, starting at row 2.
+    Dim ticker As String 'Declare a variable for the ticker symbol.
+    Dim lastRow As Long ' Declare a variable for the last row of data.
+    Dim op As Double
+    Dim currentValue As Integer
+    Dim openingPrice As Double ' Declare a variable for the opening price.
+    Dim closingPrice As Double ' Declare a variable for the closing price.
+    Dim yearlyChange As Double ' Declare a variable for the yearly change.
+    openingPrice = 0
+    yearlyChange = 0
+    closingPrice = 0
+    'op = 0
+
+    lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    For i = 2 To lastRow
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+            If Cells(i + 1, 6).Value <> Cells(i, 6).Value Then
+              closingPrice = Cells(i, 6).Value
+            End If
+        End If
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+            openingPrice = Cells(i, 3).Value
+            If openingPrice = 0 Then
+            openingPrice = openingPrice
+            Else
+            End If
+            If currentValue <> openingPrice Then
+            End If
+ 
+            yearlyChangeRow = yearlyChangeRow + 1
+            Cells(yearlyChangeRow, "J").Value = yearlyChange
+            yearlyChange = openingPrice - closingPrice
+        End If
+    Next i
+    yearlyChangeRow = 2
+End Sub
+
+Sub totalStock()
+    Dim ws As Worksheet
+    Dim totalStockRow As Long: totalStockRow = 2
+    Dim ticker As String
+    Dim lastRow As Long
+    Dim openingPrice As Double
+    Dim totalStock As Double
+
+    lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+
+    For i = 2 To lastRow
+        ' Initialize totalStock for each new ticker
+        If i = 2 Or Cells(i, 1).Value <> Cells(i - 1, 1).Value Then
+            totalStock = Cells(i, 7).Value
+        Else
+            ' Add to totalStock for the same ticker
+            totalStock = totalStock + Cells(i, 7).Value
+        End If
+
+        ' If we've moved to a new ticker or reached the last row...
+        If i = lastRow Or Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+            ' Output totalStock for the current ticker
+            Cells(totalStockRow, "L").Value = totalStock
+            totalStockRow = totalStockRow + 1
+        End If
+    Next i
+
+End Sub
+
+Sub Colorformat()
+    Dim rg As Range
+    Dim cond1 As FormatCondition, cond2 As FormatCondition
+
+    ' Set range starting from row 2 to exclude header
+    Set rg = Range("J2:J" & Cells(Rows.Count, "J").End(xlUp).Row)
+
+    ' Clear any existing conditional formatting
+    rg.FormatConditions.Delete
+
+    ' Add new conditional formatting for positive values
+    Set cond1 = rg.FormatConditions.Add(Type:=xlCellValue, Operator:=xlGreater, Formula1:="=0")
+    With cond1
+        .Interior.Color = vbGreen
+        .SetFirstPriority
+    End With
+
+    ' Add new conditional formatting for negative values
+    Set cond2 = rg.FormatConditions.Add(Type:=xlCellValue, Operator:=xlLess, Formula1:="=0")
+    With cond2
+        .Interior.Color = vbRed
+        .SetFirstPriority
+    End With
+End Sub
+
